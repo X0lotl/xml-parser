@@ -1,0 +1,16 @@
+WHITESPACE = _{ " " | "\t" | "\r" | "\n" }
+
+xml = { SOI ~ element ~ EOI }
+
+element = { open_tag ~ (element | text)* ~ close_tag }
+
+open_tag = { "<" ~ name ~ (attribute)* ~ ">" }
+close_tag = { "</" ~ name ~ ">" }
+
+attribute = { name ~ "=" ~ quoted_string }
+
+name = @{ (ASCII_ALPHANUMERIC | "_")+ }
+
+quoted_string = { "\"" ~ (!"\"" ~ ANY)* ~ "\"" }
+
+text = @{ (!"<" ~ ANY)+ }
