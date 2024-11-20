@@ -1,8 +1,8 @@
-use anyhow::{Result, Error};
+use anyhow::{Error, Result};
 use pest::Parser;
 use pest_derive::Parser;
-use thiserror::Error;
 use std::num::ParseIntError;
+use thiserror::Error;
 
 #[derive(Parser)]
 #[grammar = "grammar.pest"]

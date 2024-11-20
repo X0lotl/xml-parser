@@ -1,13 +1,26 @@
+// Define whitespace characters
 WHITESPACE = _{ " " | "\t" | "\r" | "\n" }
 
+// Define the root XML rule
 xml = { SOI ~ element ~ EOI }
 
+// Define an XML element, which consists of a start tag, zero or more nested elements or text, and an end tag
 element = { start_tag ~ (element | text)* ~ end_tag }
+
+// Define a start tag, which includes a name and optional attributes
 start_tag = { "<" ~ name ~ (WHITESPACE ~ attribute)* ~ WHITESPACE? ~ ">" }
+
+// Define an end tag, which includes a name
 end_tag = { "</" ~ name ~ ">" }
 
+// Define an attribute, which consists of a name and a value
 attribute = { name ~ "=" ~ "\"" ~ value ~ "\"" }
+
+// Define a name, which can include alphanumeric characters, hyphens, underscores, and colons
 name = { (ASCII_ALPHANUMERIC | "-" | "_" | ":")+ }
+
+// Define a value, which can include any character except a double quote
 value = { (!"\"" ~ ANY)* }
 
+// Define text, which can include any character except a less-than sign
 text = { (!"<" ~ ANY)+ }
