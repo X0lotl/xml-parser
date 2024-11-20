@@ -2,15 +2,12 @@ WHITESPACE = _{ " " | "\t" | "\r" | "\n" }
 
 xml = { SOI ~ element ~ EOI }
 
-element = { open_tag ~ (element | text)* ~ close_tag }
+element = { start_tag ~ (element | text)* ~ end_tag }
+start_tag = { "<" ~ name ~ (WHITESPACE ~ attribute)* ~ WHITESPACE? ~ ">" }
+end_tag = { "</" ~ name ~ ">" }
 
-open_tag = { "<" ~ name ~ (attribute)* ~ ">" }
-close_tag = { "</" ~ name ~ ">" }
+attribute = { name ~ "=" ~ "\"" ~ value ~ "\"" }
+name = { (ASCII_ALPHANUMERIC | "-" | "_" | ":")+ }
+value = { (!"\"" ~ ANY)* }
 
-attribute = { name ~ "=" ~ quoted_string }
-
-name = @{ (ASCII_ALPHANUMERIC | "_")+ }
-
-quoted_string = { "\"" ~ (!"\"" ~ ANY)* ~ "\"" }
-
-text = @{ (!"<" ~ ANY)+ }
+text = { (!"<" ~ ANY)+ }
